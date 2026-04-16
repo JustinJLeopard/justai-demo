@@ -4,8 +4,7 @@
 
 JustAi is a multi-agent orchestration system that decomposes high-level engineering goals into task plans, delegates execution across heterogeneous model backends, reviews output against acceptance criteria, and improves over time through trajectory-based learning. It integrates enterprise-grade observability (LangFuse), real-time coordination (SpacetimeDB), and persistent vector memory (HNSW) into a unified pipeline that treats every agent run as training data for the next.
 
-Built on the [rUv agentic framework](https://github.com/ruvnet) — an open-source ecosystem for multi-agent swarm orchestration, self-adaptive feedback loops, and autonomous workflow coordination.
-
+Built on the [rUv agentic framework](https://github.com/ruvnet)— an open-source ecosystem for multi-agent swarm orchestration, self-adaptive feedback loops, and autonomous workflow coordination and the "mini-swe-agent" (https://github.com/SWE-agent/mini-swe-agent) by Princeton & Stanford that dominates the https://www.swebench.com/ leaderboards with ~100 lines of code.
 [**Try the Live Demo**](https://delegateandorchestrate.com/demo/justai) | [**delegateandorchestrate.com**](https://delegateandorchestrate.com)
 
 ---

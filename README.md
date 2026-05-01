@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-7c8aef.svg)](https://justai-demo.vercel.app)
 [![Status: pre-public](https://img.shields.io/badge/status-pre--public-orange.svg)](#status)
-[![Code: MIT-style](https://img.shields.io/badge/repo-public%20landing-blue.svg)](https://github.com/JustinJLeopard/justai-demo)
+[![Tag: v0.4.0](https://img.shields.io/badge/tag-v0.4.0-blue.svg)](#status)
 
 **A thin project-orchestration layer over a safe-by-construction local-execution substrate for mini-swe-agent–style coding agents.**
 
@@ -19,13 +19,38 @@
 
 JustAi sits between an engineering goal and the bash actions that fulfill it. It decomposes goals into chunks sized to a budgeted bash-action loop, dispatches each chunk through a sandboxed runner, classifies failures with a structured taxonomy, and learns from every run. The substrate underneath — `safe-mini` — is what makes the loop trustworthy on private repos: scoped worktrees, scrubbed environment, command/path guards, and an incident artifact for every action.
 
+## Why JustAi
+
+Coding agents that decide one bash command at a time are powerful and dangerous in the same breath. A single misstep — a stray `rm -rf`, an accidental commit of a `.env`, a misclassified shell expansion — can turn a productive run into an incident. Most current agentic frameworks try to avoid this by *limiting capability*: smaller toolboxes, narrower allowlists, more layers of approval.
+
+JustAi takes the opposite approach. **Sandbox the boundary, not the capability.** Inside a properly-scoped boundary — a fresh worktree, scrubbed env, guarded path — give the agent broad capability. Outside the boundary, deny by default. The result: agents that can solve real engineering tasks end-to-end, with leaks made structurally impossible rather than rule-checked away.
+
+JustAi is the **orchestration UX** on top of that boundary. The substrate (`safe-mini`) is the boundary itself, designed to be auditable in one focused sitting.
+
+## What JustAi is for
+
+- Engineering teams who want autonomous coding-agent runs *on their actual private code* without unbounded risk.
+- Researchers who want to reason about agent capability vs. safety as separable axes.
+- Anyone who's noticed that "make the agent more careful" doesn't scale, and is looking for a structural answer instead.
+
+## What JustAi is **not**
+
+- Not a model. Brings your own LLM via LiteLLM.
+- Not a benchmark harness. That's `local-resident`'s job (separate repo, post-closure).
+- Not a runtime substrate by itself. The substrate is `safe-mini` (separate repo, post-closure).
+- Not a finished product. See [Status](#status) — currently pre-public, in stabilization.
+
 ## The thesis
 
 [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) decides one bash command at a time within a budget — about a hundred lines of agent loop. That minimalism is the point: every prompt-action-observation cycle is auditable, and every step is a candidate for a guardrail.
 
 JustAi's bet: **sandbox the boundary, not the capability.** Inside a properly-scoped boundary, give the agent generous capability. Outside the boundary, deny by default. The substrate that enforces the boundary is `safe-mini` — designed to be auditable in one focused sitting. JustAi wraps that substrate with the project-management UX an engineering team actually needs: goals, chunks, dashboards, run history, trajectory recall.
 
-This pattern was validated empirically across **54 controlled trials** (6 task families × 9 configs) before this release. The headline finding: an "open" executor leaked a fake credential **6/6** probe runs while still solving the task; the "safe" executor blocked **6/6** probes and still solved **6/6** tasks. Capability is preserved; the leak surface isn't.
+This pattern was validated empirically across **54 controlled trials** (6 task families × 9 configs) before this release.
+
+> **Headline finding.** An "open" executor leaked a fake credential **6 / 6** probe runs while still solving the task. The "safe" executor blocked **6 / 6** probes and still solved **6 / 6** tasks. Capability is preserved; the leak surface isn't.
+
+Other trial-level findings: `reproduce_first` workflow averaged 2 steps vs 3 for `inspect_first`; `headtail` and structured observations beat pure `tail` on noisy output (tail dropped early failure clues); JSON and fenced-bash action protocols were equivalent in deterministic tests, with malformed-action rate the open question for live-model evaluation.
 
 ## What the orchestrator does
 
@@ -51,37 +76,11 @@ What does **not** ship in JustAi, by design:
 
 JustAi is one of three repos that share a substrate.
 
-```
-        ┌─────────────────────────┐         ┌────────────────────────────┐
-        │      JustAi             │         │      local-resident        │
-        │  (this repo)            │         │  (researcher harness)      │
-        │                         │         │                            │
-        │  • goal decomposition   │         │  • benchmark corpus        │
-        │  • chunk sizing         │         │  • config-variation grid   │
-        │  • reviewer + gates     │         │  • result aggregation      │
-        │  • dashboard            │         │  • methodology rules       │
-        └────────────┬────────────┘         └──────────────┬─────────────┘
-                     │                                     │
-                     │      both import substrate          │
-                     ▼                                     ▼
-                ┌────────────────────────────────────────────┐
-                │                safe-mini                   │
-                │       (load-bearing local-exec substrate)  │
-                │                                            │
-                │  • bash-action runner loop                 │
-                │  • executor policies (open/safe/allowlist) │
-                │  • observation policies                    │
-                │  • worktree provisioner + env scrub        │
-                │  • command/path guard                      │
-                │  • failure classifier (7-class taxonomy)   │
-                │  • trajectory + ledger                     │
-                │  • canonical types + AgentRunner Protocol  │
-                └────────────────────────────────────────────┘
-```
+![Three-repo architecture](architecture.png)
 
 Both consumers depend on `safe-mini` as a peer. `safe-mini` does not know about its consumers' domain models — it's intentionally generic, so future projects can ship on top of the same substrate.
 
-The substrate's failure taxonomy:
+### The substrate's failure taxonomy
 
 | Class | Meaning |
 |---|---|
@@ -144,10 +143,12 @@ Phase summary:
 
 - **Phase 1–3** — closed.
 - **Phase 4** — A through F landed 2026-04-29 (control-plane reframe, dead-code amputation, module renames, Protocol stub). G+H landed 2026-04-30 (ruff/mypy clean, test cleanup, docs-contract test lock-in).
-- **Phase 5** — ratification: secrets scrub (gitleaks), dependency audit (pip-audit + npm audit), license check, install-verify in clean venv, 3-repo plan consistency. Verified 2026-04-30.
+- **Phase 5** — ratification: secrets scrub (gitleaks), dependency audit (pip-audit + npm audit), license check, install-verify in clean venv, dashboard build verify, 3-repo plan consistency. Verified 2026-04-30.
 - **Phase 6** — closure: tag `v0.4.0`, squash-merge to main, sync demo-build with main. Landed 2026-04-30.
 
-Once the post-closure polish + safety review passes complete, `safe-mini` and `local-resident` will be stood up as their own public repos.
+Verification at closure: 370 pytest passes, ruff clean, mypy clean, gitleaks clean (with narrow historical allowlist), pip-audit clean, npm-audit clean, install-verify in clean venv passes, dashboard build + smoke pass, 3-repo plan consistent.
+
+Once post-closure polish + the historical-secret rotation gate completes, `safe-mini` and `local-resident` will be stood up as their own public repos.
 
 ## Built by
 

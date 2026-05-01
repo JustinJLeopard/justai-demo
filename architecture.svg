@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="100%" preserveAspectRatio="xMidYMid meet" font-family="Inter, -apple-system, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0d10"/>
+      <stop offset="1" stop-color="#11151c"/>
+    </linearGradient>
+    <linearGradient id="consumerCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1f29"/>
+      <stop offset="1" stop-color="#11151c"/>
+    </linearGradient>
+    <linearGradient id="substrateCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e2436"/>
+      <stop offset="1" stop-color="#0e1118"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c8aef"/>
+      <stop offset="1" stop-color="#a5b4fc"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7c8aef"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="46" fill="#e2e8f0" font-size="24" font-weight="300" text-anchor="middle" letter-spacing="-0.3">Three-repo architecture</text>
+  <text x="600" y="72" fill="#94a3b8" font-size="14" font-weight="300" text-anchor="middle">JustAi and local-resident are peer consumers of safe-mini</text>
+
+  <!-- JustAi card (left consumer) -->
+  <rect x="80" y="120" width="440" height="240" rx="14" fill="url(#consumerCard)" stroke="#7c8aef" stroke-width="1.5"/>
+  <text x="300" y="158" fill="#a5b4fc" font-size="20" font-weight="500" text-anchor="middle">JustAi</text>
+  <text x="300" y="180" fill="#64748b" font-size="12" font-weight="300" text-anchor="middle" font-style="italic">project orchestrator · this repo</text>
+  <line x1="120" y1="200" x2="480" y2="200" stroke="#1e2436" stroke-width="1"/>
+  <g fill="#cbd5e1" font-size="13" font-weight="300">
+    <text x="120" y="228">• goal decomposition (scope_planner)</text>
+    <text x="120" y="252">• chunk sizing + budget calibration</text>
+    <text x="120" y="276">• reviewer + intent gate + checkpoint</text>
+    <text x="120" y="300">• multi-chunk coordination + synthesis</text>
+    <text x="120" y="324">• dashboard + run history + memory</text>
+    <text x="120" y="348">• cross-run learning aggregation</text>
+  </g>
+
+  <!-- local-resident card (right consumer) -->
+  <rect x="680" y="120" width="440" height="240" rx="14" fill="url(#consumerCard)" stroke="#7c8aef" stroke-width="1.5"/>
+  <text x="900" y="158" fill="#a5b4fc" font-size="20" font-weight="500" text-anchor="middle">local-resident</text>
+  <text x="900" y="180" fill="#64748b" font-size="12" font-weight="300" text-anchor="middle" font-style="italic">researcher harness · separate repo</text>
+  <line x1="720" y1="200" x2="1080" y2="200" stroke="#1e2436" stroke-width="1"/>
+  <g fill="#cbd5e1" font-size="13" font-weight="300">
+    <text x="720" y="228">• benchmark task corpus</text>
+    <text x="720" y="252">• config-variation grid (54-trial matrix)</text>
+    <text x="720" y="276">• per-config result aggregation</text>
+    <text x="720" y="300">• calibration data generation</text>
+    <text x="720" y="324">• live local-model runs (Qwen3-Coder via Lemonade)</text>
+    <text x="720" y="348">• methodology rules</text>
+  </g>
+
+  <!-- "both import" arrow gutter -->
+  <text x="600" y="400" fill="#7c8aef" font-size="13" font-weight="400" text-anchor="middle" letter-spacing="0.5">both import the substrate as a peer dependency</text>
+
+  <!-- Arrows from each consumer down to substrate -->
+  <line x1="300" y1="365" x2="380" y2="430" stroke="#7c8aef" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="0"/>
+  <line x1="900" y1="365" x2="820" y2="430" stroke="#7c8aef" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="0"/>
+
+  <!-- safe-mini card (substrate, bottom, wider) -->
+  <rect x="80" y="440" width="1040" height="270" rx="14" fill="url(#substrateCard)" stroke="url(#accent)" stroke-width="2"/>
+  <text x="600" y="478" fill="#a5b4fc" font-size="22" font-weight="500" text-anchor="middle">safe-mini</text>
+  <text x="600" y="500" fill="#64748b" font-size="12" font-weight="300" text-anchor="middle" font-style="italic">load-bearing local-execution substrate · separate repo</text>
+  <line x1="120" y1="520" x2="1080" y2="520" stroke="#1e2436" stroke-width="1"/>
+
+  <!-- substrate concerns in 3 columns -->
+  <g fill="#cbd5e1" font-size="13" font-weight="300">
+    <!-- col 1 -->
+    <text x="120" y="548" fill="#a5b4fc" font-weight="500">Runtime</text>
+    <text x="120" y="572">• bash-action runner loop</text>
+    <text x="120" y="592">• action-protocol parsers</text>
+    <text x="120" y="612">• executor policies</text>
+    <text x="120" y="632" font-style="italic" fill="#64748b">  open / safe / allowlist</text>
+    <text x="120" y="652">• observation policies</text>
+    <text x="120" y="672" font-style="italic" fill="#64748b">  full / tail / structured</text>
+
+    <!-- col 2 -->
+    <text x="460" y="548" fill="#a5b4fc" font-weight="500">Boundary</text>
+    <text x="460" y="572">• worktree provisioner</text>
+    <text x="460" y="592">• env scrub + sanitized PATH</text>
+    <text x="460" y="612">• command + path guards</text>
+    <text x="460" y="632">• incident artifact emission</text>
+    <text x="460" y="652">• budget enforcement</text>
+    <text x="460" y="672" font-style="italic" fill="#64748b">  move + observation</text>
+
+    <!-- col 3 -->
+    <text x="800" y="548" fill="#a5b4fc" font-weight="500">Telemetry</text>
+    <text x="800" y="572">• failure classifier (7-class)</text>
+    <text x="800" y="592">• trajectory recording</text>
+    <text x="800" y="612">• ledger (cost/token/latency)</text>
+    <text x="800" y="632">• canonical types</text>
+    <text x="800" y="652" font-style="italic" fill="#64748b">  Chunk · Budget · RunResult</text>
+    <text x="800" y="672">• AgentRunner Protocol contract</text>
+  </g>
+
+  <!-- footer note -->
+  <text x="600" y="734" fill="#475569" font-size="11" font-weight="300" text-anchor="middle">safe-mini is intentionally generic — does not know about its consumers' domain models · audit-in-one-sitting design goal</text>
+</svg>

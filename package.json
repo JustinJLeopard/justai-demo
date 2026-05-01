@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "typecheck": "node --check scripts/verify-static.mjs",
+    "build": "node scripts/verify-static.mjs"
+  },
+  "devDependencies": {}
+}

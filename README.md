@@ -82,7 +82,7 @@ JustAi is one of three repos that share a substrate.
 
 ![Three-repo architecture](architecture.png)
 
-Both consumers depend on `safe-mini` as a peer. `safe-mini` does not know about its consumers' domain models — it's intentionally generic, so future projects can ship on top of the same substrate.
+Both consumers depend on [`safe-mini`](https://github.com/JustinJLeopard/safe-mini) as a peer. `safe-mini` does not know about its consumers' domain models — it's intentionally generic, so future projects can ship on top of the same substrate.
 
 ### The substrate's failure taxonomy
 
@@ -168,7 +168,7 @@ Engineering surface is being prepared for public release. The repo is private du
 
 **Verification at closure:** 370 pytest passes (+14 subtests), ruff clean, mypy clean, gitleaks clean (with narrow historical allowlist), pip-audit clean, npm-audit clean, clean-venv install passes, dashboard build + smoke pass, 3-repo plan consistent.
 
-Once post-closure polish and the historical-secret rotation gate complete, `safe-mini` and `local-resident` will be stood up as their own public repos and a `v1.0.0` release will follow.
+`safe-mini` is **now live** at [github.com/JustinJLeopard/safe-mini](https://github.com/JustinJLeopard/safe-mini) (alpha, MIT). `local-resident` will be stood up next. Once the historical-secret rotation gate completes, JustAi flips public and a `v1.0.0` release across the three repos follows.
 
 ## Built by
 

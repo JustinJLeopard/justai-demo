@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/writing",
+      "destination": "https://www.delegateandorchestrate.com/blog/parallel-sessions-shared-substrate",
+      "permanent": true
+    },
+    {
+      "source": "/writing/:path*",
+      "destination": "https://www.delegateandorchestrate.com/blog/parallel-sessions-shared-substrate",
+      "permanent": true
+    }
+  ]
+}

@@ -17,7 +17,7 @@
 
 ---
 
-JustAi sits between an engineering goal and the bash actions that fulfill it. It decomposes the goal into chunks sized to a budgeted bash-action loop, dispatches each chunk through a sandboxed runner, classifies failures with a structured taxonomy, and learns from every run. The substrate underneath — `safe-mini` — is what makes that loop trustworthy on private repos: scoped worktrees, scrubbed environment, command and path guards, and an incident artifact emitted for every action.
+JustAi sits between an engineering goal and the bash actions that fulfill it. It decomposes the goal into chunks sized to a budgeted bash-action loop, dispatches each chunk through a sandboxed runner, classifies failures with a structured taxonomy, and learns from every run. The substrate underneath — `safe-mini` — is what keeps that loop trustworthy on private repos: scoped worktrees, scrubbed environment, command and path guards, and an incident artifact emitted for every action.
 
 ## Why JustAi
 
@@ -183,3 +183,7 @@ If this resonates and you want to follow along — ⭐ this repo (or [watch](htt
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+---
+
+<sub>Last updated 2026-04-30 (post-Phase-6 closure, `v0.4.0`). Engineering source remains private during stabilization.</sub>

@@ -4,12 +4,12 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-7c8aef.svg)](https://justai-demo.vercel.app)
-[![Status: pre-public](https://img.shields.io/badge/status-pre--public-orange.svg)](#status)
+[![Status: public demo](https://img.shields.io/badge/status-public_demo-2f855a.svg)](#status)
 [![Tag: v0.4.0](https://img.shields.io/badge/tag-v0.4.0-blue.svg)](#status)
 
 **A thin project-orchestration layer over a safe-by-construction local-execution substrate for mini-swe-agent–style coding agents.**
 
-[**🌐 Try the live demo**](https://justai-demo.vercel.app) · [**📐 The thesis**](#the-thesis) · [**🧱 Architecture**](#three-repo-architecture) · [**🗺️ Roadmap**](#roadmap) · [**📊 Status**](#status)
+[**Try the live demo**](https://justai-demo.vercel.app) · [**Case study**](https://www.delegateandorchestrate.com/work/justai) · [**The thesis**](#the-thesis) · [**Architecture**](#three-repo-architecture) · [**Status**](#status)
 
 [![Mission Control screenshot](screenshots/mission-control.png)](https://justai-demo.vercel.app)
 
@@ -42,7 +42,7 @@ JustAi is the **orchestration UX** on top of that boundary. The substrate (`safe
 - Not a model. Bring your own LLM via LiteLLM.
 - Not a benchmark harness — that's `local-resident`'s job (separate repo, post-closure).
 - Not a runtime substrate by itself — the substrate is `safe-mini` (separate repo, post-closure).
-- Not a finished product — currently pre-public, in stabilization. See [Status](#status).
+- Not a finished product — currently a public demo and stabilization artifact. See [Status](#status).
 
 ## The thesis
 
@@ -147,8 +147,8 @@ Sprint controls live in the top bar: pause, replay, speed multiplier. The simula
 ✓  Phase 4 G+H      ruff/mypy/test cleanup      2026-04-30
 ✓  Phase 5          ratification                2026-04-30
 ✓  Phase 6          closure + v0.4.0 tag        2026-04-30
-↻  Public-flip gate historical-secret rotation  pending
-□  safe-mini repo   stand up substrate          next
+✓  Public demo       browser-visible artifact   live
+✓  safe-mini repo    stand up substrate         live
 □  local-resident   stand up experiment driver  next
 □  v1.0 public      release after substrate     post-stand-up
 ```
@@ -157,7 +157,7 @@ The post-Phase-6 work splits in two directions. **Substrate**: the canonical typ
 
 ## Status
 
-Engineering surface is being prepared for public release. The repo is private during stabilization; the live demo (above) is the public-facing artifact, alongside this landing page.
+This repository is public as the browser-visible JustAi demo. The deeper control-plane source lives in [JustinJLeopard/JustAi](https://github.com/JustinJLeopard/JustAi); the execution substrate lives in [safe-mini](https://github.com/JustinJLeopard/safe-mini).
 
 | Phase | Scope | Status |
 |---|---|---|
@@ -168,7 +168,7 @@ Engineering surface is being prepared for public release. The repo is private du
 
 **Verification at closure:** 370 pytest passes (+14 subtests), ruff clean, mypy clean, gitleaks clean (with narrow historical allowlist), pip-audit clean, npm-audit clean, clean-venv install passes, dashboard build + smoke pass, 3-repo plan consistent.
 
-`safe-mini` is **now live** at [github.com/JustinJLeopard/safe-mini](https://github.com/JustinJLeopard/safe-mini) (alpha, MIT). `local-resident` will be stood up next. Once the historical-secret rotation gate completes, JustAi flips public and a `v1.0.0` release across the three repos follows.
+`safe-mini` is live at [github.com/JustinJLeopard/safe-mini](https://github.com/JustinJLeopard/safe-mini) (alpha, MIT). `local-resident` remains the private experiment driver until it is ready to stand on its own.
 
 ## Built by
 
@@ -178,7 +178,7 @@ Building autonomous AI systems that orchestrate, learn, and ship.
 
 For research and collaboration inquiries: [open an issue](https://github.com/JustinJLeopard/justai-demo/issues/new), or contact via the website.
 
-If this resonates and you want to follow along — ⭐ this repo (or [watch](https://github.com/JustinJLeopard/justai-demo/subscription) for the public-flip notification).
+If this resonates and you want to follow along, watch this repo or start with the case study at [delegateandorchestrate.com/work/justai](https://www.delegateandorchestrate.com/work/justai).
 
 ## License
 
@@ -186,4 +186,4 @@ MIT — see [LICENSE](./LICENSE).
 
 ---
 
-<sub>Last updated 2026-04-30 (post-Phase-6 closure, `v0.4.0`). Engineering source remains private during stabilization.</sub>
+<sub>Last updated 2026-05-06. Public demo live; substrate split underway.</sub>

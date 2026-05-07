@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JUSTAI Harness Pulse</title>
+    <meta
+      name="description"
+      content="Public operator notebook snapshot for the JUSTAI harness pulse, v0.6."
+    />
+    <style>
+      :root {
+        --paper: #f3ecd9;
+        --paper-deep: #e7dec5;
+        --ink: #28251f;
+        --muted: #665f4e;
+        --rule: #afa283;
+        --moss: #6d7745;
+        --moss-deep: #3f4928;
+        --amber: #a46d2b;
+        --good: #486f44;
+        --warn: #8d632a;
+        --shadow: rgba(55, 47, 30, 0.16);
+        --mono: "SFMono-Regular", "Cascadia Mono", "Liberation Mono", Consolas, monospace;
+        --serif: Georgia, "Times New Roman", serif;
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #d8cfb8;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16px;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          var(--paper);
+        background-size: 28px 28px;
+      }
+
+      main {
+        width: min(1160px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 34px 0 28px;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: start;
+        padding: 22px 0 18px;
+        border-bottom: 2px dashed var(--rule);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 6vw, 5.5rem);
+        line-height: 0.92;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 1.35rem;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .eyebrow,
+      .stamp,
+      .label,
+      .metric,
+      .footer {
+        font-family: var(--mono);
+      }
+
+      .eyebrow {
+        color: var(--moss-deep);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        margin-bottom: 9px;
+        text-transform: uppercase;
+      }
+
+      .deck {
+        max-width: 760px;
+        margin-top: 12px;
+        font-size: 1rem;
+      }
+
+      .stamp {
+        border: 2px solid var(--moss);
+        color: var(--moss-deep);
+        padding: 10px 12px;
+        text-align: right;
+        min-width: 176px;
+        transform: rotate(1deg);
+      }
+
+      .stamp strong {
+        display: block;
+        font-size: 1.3rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .panel {
+        background: rgba(255, 252, 241, 0.64);
+        border: 1px solid var(--rule);
+        box-shadow: 0 8px 20px var(--shadow);
+        padding: 18px;
+      }
+
+      .span-8 {
+        grid-column: span 8;
+      }
+
+      .span-4 {
+        grid-column: span 4;
+      }
+
+      .span-6 {
+        grid-column: span 6;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: baseline;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed var(--rule);
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      .metric {
+        color: var(--ink);
+        font-size: clamp(1.7rem, 4vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .metric small {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .ledger {
+        display: grid;
+        gap: 10px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: minmax(140px, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px dashed rgba(102, 95, 78, 0.38);
+      }
+
+      .row:last-child {
+        border-bottom: 0;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--good);
+        font-family: var(--mono);
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .status::before {
+        width: 8px;
+        height: 8px;
+        content: "";
+        border-radius: 999px;
+        background: var(--good);
+        box-shadow: 0 0 0 3px rgba(72, 111, 68, 0.16);
+      }
+
+      .tag {
+        display: inline-block;
+        border: 1px solid rgba(109, 119, 69, 0.55);
+        color: var(--moss-deep);
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        padding: 4px 7px;
+        margin: 8px 6px 0 0;
+      }
+
+      .note {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        line-height: 1.55;
+      }
+
+      .route {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .route code {
+        display: block;
+        width: 100%;
+        overflow-wrap: anywhere;
+        color: var(--ink);
+        font-family: var(--mono);
+        font-size: 0.92rem;
+      }
+
+      .route .arrow {
+        color: var(--amber);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 2px dashed var(--rule);
+        color: var(--muted);
+      }
+
+      .footer {
+        font-size: 0.78rem;
+      }
+
+      @media (max-width: 860px) {
+        header,
+        footer {
+          grid-template-columns: 1fr;
+        }
+
+        header,
+        footer {
+          display: block;
+        }
+
+        .stamp {
+          margin-top: 16px;
+          text-align: left;
+          transform: none;
+        }
+
+        .span-8,
+        .span-6,
+        .span-4 {
+          grid-column: 1 / -1;
+        }
+
+        .row {
+          grid-template-columns: 1fr;
+          gap: 5px;
+        }
+
+        footer p + p {
+          margin-top: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <div class="eyebrow">Operator's Notebook / Public Snapshot</div>
+          <h1>Harness Pulse</h1>
+          <p class="deck">
+            Static public readout of the local JUSTAI harness after the lane reset on
+            May 7, 2026. The live probes stay local; this page mirrors the current
+            expected posture for outside review.
+          </p>
+        </div>
+        <div class="stamp">
+          <span>pulse page</span>
+          <strong>v0.6</strong>
+          <span>2026-05-07</span>
+        </div>
+      </header>
+
+      <section class="grid" aria-label="Harness status">
+        <article class="panel span-8">
+          <div class="panel-head">
+            <h2>iGPU Triplet</h2>
+            <span class="status">available</span>
+          </div>
+          <div class="ledger">
+            <div class="row">
+              <div>
+                <h3>Coder-Next</h3>
+                <p>Primary code model via Lemonade on the Radeon 8060S lane.</p>
+              </div>
+              <span class="status">iGPU</span>
+            </div>
+            <div class="row">
+              <div>
+                <h3>nomic-embed-text-v1</h3>
+                <p>Embedding route now resolves to the Lemonade-hosted nomic model.</p>
+              </div>
+              <span class="status">iGPU</span>
+            </div>
+            <div class="row">
+              <div>
+                <h3>bge-reranker-v2-m3</h3>
+                <p>Reranker health belongs to the same Lemonade service lane.</p>
+              </div>
+              <span class="status">iGPU</span>
+            </div>
+          </div>
+          <div>
+            <span class="tag">Lemonade</span>
+            <span class="tag">Radeon 8060S</span>
+            <span class="tag">local probes only</span>
+          </div>
+        </article>
+
+        <article class="panel span-4">
+          <div class="panel-head">
+            <h2>Context</h2>
+            <span class="label">Coder-Next</span>
+          </div>
+          <div class="metric">262144 <small>tokens</small></div>
+          <p class="note">
+            256K context unlocked with YaRN:
+            --rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 65536
+          </p>
+        </article>
+
+        <article class="panel span-6">
+          <div class="panel-head">
+            <h2>Route Ledger</h2>
+            <span class="label">static mock</span>
+          </div>
+          <div class="route">
+            <code>embed-route</code>
+            <span class="arrow">points to</span>
+            <code>Lemonade / nomic-embed-text-v1</code>
+          </div>
+          <p class="note">
+            Public data is representative. It does not call back into Justin's local
+            harness or expose private probe endpoints.
+          </p>
+        </article>
+
+        <article class="panel span-6">
+          <div class="panel-head">
+            <h2>Harness Notes</h2>
+            <span class="label">unchanged mocks</span>
+          </div>
+          <div class="ledger">
+            <div class="row">
+              <div>
+                <h3>Memory</h3>
+                <p>Persistent global and project memory remain represented as hydrated.</p>
+              </div>
+              <span class="status">ready</span>
+            </div>
+            <div class="row">
+              <div>
+                <h3>Work Queue</h3>
+                <p>Worker and orchestration indicators are illustrative for the public page.</p>
+              </div>
+              <span class="status">nominal</span>
+            </div>
+            <div class="row">
+              <div>
+                <h3>Hydration</h3>
+                <p>Snapshot assumes operator briefing and memory pins are current.</p>
+              </div>
+              <span class="status">current</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <p>JUSTAI demo / pulse v0.6 / static public artifact</p>
+        <p>Last public state alignment: 2026-05-07 EDT</p>
+      </footer>
+    </main>
+  </body>
+</html>

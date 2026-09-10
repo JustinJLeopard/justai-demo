@@ -85,11 +85,6 @@ produces the same scripted trajectory.
 
 ## Project boundaries
 
-The diagram below shows the intended separation of responsibilities. It is a
-conceptual architecture, not a claim that this demo wires the projects together.
-
-![Conceptual three-repo architecture](architecture.png)
-
 - [`JustAi`](https://github.com/JustinJLeopard/JustAi) is the public planning,
   review, and checkpoint control-plane prototype. Its public execution path is
   currently unwired and fails closed.
@@ -116,8 +111,9 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-`npm run build` performs a lightweight static-asset and link check. It does not
-exercise a backend or validate productive agent execution.
+`npm run build` checks that required static assets exist and that two expected
+page strings are present. It does not perform a general link check, exercise a
+backend, or validate productive agent execution.
 
 ## Current status
 
